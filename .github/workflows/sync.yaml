@@ -26,22 +26,14 @@ jobs:
           GOSH_URL: gosh://0:e87874f4a9e46f9f16e0c09c824204836b31d60b16db050a8c7fe329bb43d120/awnion/gosh-sync
         run: |
           git --version
-          find .git
-          echo ==========
-          find .git | wc -l
-          echo ==========
           wget -O - https://raw.githubusercontent.com/gosh-sh/gosh/dev/install.sh | TAG=6.1.35 bash -s
           echo "$CONFIG_JSON" >~/.gosh/config.json
 
           export PATH=$HOME/.gosh:$PATH
 
-          git fetch -a
           git pull
-          git status
-          git remote -v
           git remote add gosh $GOSH_URL
-          git remote -v
           git switch -C github_${{ github.ref_name }}
+          git remote -v
           git status
-          ls -lA
           git push -vv gosh
