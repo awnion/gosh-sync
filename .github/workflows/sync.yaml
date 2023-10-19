@@ -23,17 +23,16 @@ jobs:
       - name: Sync
         env:
           CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
-          GOSH_URL: gosh://0:e87874f4a9e46f9f16e0c09c824204836b31d60b16db050a8c7fe329bb43d120/awnion/gosh-sync
+          GOSH_URL: ${{ vars.GOSH_URL }}
+          GOSH_TMP_BRANCH: github_${{ github.ref_name }}
         run: |
-          git --version
-          wget -O - https://raw.githubusercontent.com/gosh-sh/gosh/dev/install.sh | TAG=6.1.35 bash -s
+          # install GOSH Git Remote plugin
+          wget -O - https://raw.githubusercontent.com/gosh-sh/gosh/dev/install.sh | bash -s
+
+          # set user secrets
           echo "$CONFIG_JSON" >~/.gosh/config.json
 
-          export PATH=$HOME/.gosh:$PATH
-
-          git pull
+          # sync github -> gosh
           git remote add gosh $GOSH_URL
-          git switch -C github_${{ github.ref_name }}
-          git remote -v
-          git status
+          git switch -C $GOSH_TMP_BRANCH
           git push -vv gosh
