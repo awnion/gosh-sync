@@ -26,13 +26,15 @@ jobs:
           GOSH_URL: ${{ vars.GOSH_URL }}
           GOSH_TMP_BRANCH: github_${{ github.ref_name }}
         run: |
-          # install GOSH Git Remote plugin
-          wget -O - https://raw.githubusercontent.com/gosh-sh/gosh/dev/install.sh | bash -s
-
-          # set user secrets
+          git --version
+          wget -O - https://raw.githubusercontent.com/gosh-sh/gosh/dev/install.sh | TAG=6.1.35 bash -s
           echo "$CONFIG_JSON" >~/.gosh/config.json
 
-          # sync github -> gosh
+          export PATH=$HOME/.gosh:$PATH
+
+          git pull
           git remote add gosh $GOSH_URL
           git switch -C $GOSH_TMP_BRANCH
+          git remote -v
+          git status
           git push -vv gosh
