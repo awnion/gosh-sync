@@ -1,1 +1,1 @@
-# gosh-sync
+# GOSH Sync Test Repo
