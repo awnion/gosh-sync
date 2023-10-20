@@ -1,3 +1,3 @@
 # GOSH Sync Test Repo
 
-Hi from gosh sync!
+Hi from Gosh Sync!!
